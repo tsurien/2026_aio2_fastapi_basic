@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>도서 조회</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #message {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>도서 단건 조회</h1>
+
+    <div class="search-box">
+        <input id="bookId" type="number" placeholder="도서 번호">
+        <button id="findBtn">조회</button>
+    </div>
+
+    <table>
+        <colgroup>
+            <col style="width: 10%;">
+            <col style="width: 40%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+        </colgroup>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>제목</th>
+                <th>저자</th>
+                <th>출판년도</th>
+            </tr>
+        </thead>
+
+        <tbody id="book-detail">
+        </tbody>
+    </table>
+
+    <p id="message"></p>
+
+    <script>
+        document.getElementById("findBtn").addEventListener("click", async () => {
+
+            const id = document.getElementById("bookId").value;
+
+            const response = await fetch("/books/" + id);
+            const book = await response.json();
+
+            const bookDetail = document.getElementById("book-detail");
+            const message = document.getElementById("message");
+
+            bookDetail.innerHTML = "";
+            message.textContent = "";
+
+            if (book.error) {
+                message.textContent = "찾을 수 없습니다.";
+            } else {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${book.id}</td>
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.year}</td>
+                `;
+
+                bookDetail.appendChild(row);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

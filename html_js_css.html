@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이름 입력 예제</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>이름 입력</title>
+
+    <style>
+        body {
+            font-size: 24px;
+            padding: 40px;
+        }
+
+        input {
+            width: 210px;
+            height: 45px;
+            font-size: 20px;
+        }
+
+        button {
+            height: 50px;
+            font-size: 20px;
+            margin-left: 20px;
+        }
+
+        #result {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <label>이름</label>
+    <input type="text" id="nameInput">
+
+    <button onclick="showName()">입력</button>
+
+    <p id="result">
+        당신의 이름은 _____ 입니다.
+    </p>
+
+    <script>
+        function showName() {
+            const name = document.getElementById("nameInput").value;
+
+            document.getElementById("result").textContent =
+                "당신의 이름은 " + name + " 입니다.";
+        }
+    </script>
+
+</body>
+</html>
+</body>
+</html>
