@@ -5,121 +5,128 @@
     <meta charset="UTF-8">
     <title>도서 검색</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        .search-box {
-            margin-bottom: 20px;
-        }
-
-        input {
-            padding: 10px;
-            width: 200px;
-        }
-
-        button {
-            padding: 10px 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        #message {
-            margin-top: 20px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-    <h1>도서 검색</h1>
+    <main class="container">
 
-    <div class="search-box">
-        <input id="keyword" type="text" placeholder="제목 키워드">
-        <button id="searchBtn">검색</button>
-    </div>
+        <h1>도서 검색</h1>
 
-    <table>
-        <colgroup>
-            <col style="width: 10%;">
-            <col style="width: 40%;">
-            <col style="width: 25%;">
-            <col style="width: 25%;">
-        </colgroup>
+        <p class="subtitle">
+            제목 키워드로 원하는 도서를 검색하세요.
+        </p>
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>제목</th>
-                <th>저자</th>
-                <th>출판년도</th>
-            </tr>
-        </thead>
+        <div class="search-box">
 
-        <tbody id="search-result">
-        </tbody>
-    </table>
+            <input
+                id="keyword"
+                type="text"
+                placeholder="제목 키워드 입력"
+            >
 
-    <p id="message"></p>
+            <button id="searchBtn">
+                검색
+            </button>
+
+        </div>
+
+        <div class="table-box">
+
+            <table>
+
+                <colgroup>
+                    <col style="width: 10%;">
+                    <col style="width: 40%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>제목</th>
+                        <th>저자</th>
+                        <th>출판년도</th>
+                    </tr>
+                </thead>
+
+                <tbody id="search-result">
+
+                    <tr>
+                        <td colspan="4">
+                            검색어를 입력해주세요.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <p id="message"></p>
+
+    </main>
 
     <script>
-        document.getElementById("searchBtn").addEventListener("click", async () => {
+        document
+            .getElementById("searchBtn")
+            .addEventListener("click", async () => {
 
-            const keyword = document.getElementById("keyword").value;
+                const keyword =
+                    document.getElementById("keyword").value;
 
-            const response = await fetch(
-                "/books/search?keyword=" + encodeURIComponent(keyword)
-            );
+                const response =
+                    await fetch(
+                        "/books/search?keyword=" +
+                        encodeURIComponent(keyword)
+                    );
 
-            const books = await response.json();
+                const books =
+                    await response.json();
 
-            const searchResult = document.getElementById("search-result");
-            const message = document.getElementById("message");
+                const searchResult =
+                    document.getElementById("search-result");
 
-            searchResult.innerHTML = "";
-            message.textContent = "";
+                const message =
+                    document.getElementById("message");
 
-            if (books.length === 0) {
-                message.textContent = "검색 결과가 없습니다.";
-                return;
-            }
+                searchResult.innerHTML = "";
+                message.textContent = "";
 
-            for (const book of books) {
+                if (books.length === 0) {
 
-                const row = document.createElement("tr");
+                    searchResult.innerHTML = `
+                        <tr>
+                            <td colspan="4">
+                                검색 결과 없음
+                            </td>
+                        </tr>
+                    `;
 
-                row.innerHTML = `
-                    <td>${book.id}</td>
-                    <td>${book.title}</td>
-                    <td>${book.author}</td>
-                    <td>${book.year}</td>
-                `;
+                    message.textContent =
+                        "검색 결과가 없습니다.";
 
-                searchResult.appendChild(row);
-            }
-        });
+                    return;
+                }
+
+                for (const book of books) {
+
+                    const row =
+                        document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${book.id}</td>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.year}</td>
+                    `;
+
+                    searchResult.appendChild(row);
+                }
+            });
     </script>
 
 </body>

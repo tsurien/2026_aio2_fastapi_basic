@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>단건 조회</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+  <main class="container">
+    <h1>도서 조회 (404 처리)</h1>
+    <p class="subtitle">도서 번호를 입력해 조회하고 404 오류를 확인합니다.</p>
+
+    <div class="search-box">
+      <input id="bookId" type="number" placeholder="도서 번호">
+      <button id="findBtn">조회</button>
+    </div>
+
+    <div class="table-box">
+      <p id="result"></p>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("findBtn").addEventListener("click", async () => {
+      const id = document.getElementById("bookId").value;
+      const res = await fetch("/books/" + id);
+      const data = await res.json();
+      const p = document.getElementById("result");
+
+      if (res.status === 404) {
+        p.style.color = "#ff6b6b";
+        p.textContent = data.detail;
+      } else if (res.ok) {
+        p.style.color = "#ddd";
+        p.textContent = data.title + " - " + data.author + " (" + data.year + ")";
+      } else {
+        p.style.color = "#ff6b6b";
+        p.textContent = "요청 실패 (상태 " + res.status + ")";
+      }
+    });
+  </script>
+</body>
+</html>

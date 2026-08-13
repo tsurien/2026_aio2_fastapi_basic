@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>도서 필터</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <main class="container">
+
+    <h1>저자 필터·정렬</h1>
+
+    <p class="subtitle">
+      저자 이름으로 도서를 필터하고 연도순으로 정렬할 수 있습니다.
+    </p>
+
+    <div class="search-box">
+
+      <input
+        id="author"
+        type="text"
+        placeholder="저자 이름"
+      >
+
+      <select id="sort">
+        <option value="">정렬 안 함</option>
+        <option value="year">연도순</option>
+      </select>
+
+      <button id="filterBtn">
+        적용
+      </button>
+
+    </div>
+
+    <div class="table-box">
+
+      <ul id="result"></ul>
+
+    </div>
+
+  </main>
+
+
+  <script>
+    document.getElementById("filterBtn").addEventListener("click", async () => {
+
+      const author = document.getElementById("author").value;
+      const sort = document.getElementById("sort").value;
+
+      const url =
+        "/books/filter?keyword=" +
+        encodeURIComponent(author) +
+        "&sort=" +
+        sort;
+
+      const books =
+        await (await fetch(url)).json();
+
+      const ul =
+        document.getElementById("result");
+
+      ul.innerHTML = "";
+
+      for (const b of books) {
+
+        const li =
+          document.createElement("li");
+
+        li.textContent =
+          b.title +
+          " - " +
+          b.author +
+          " (" +
+          b.year +
+          ")";
+
+        ul.appendChild(li);
+      }
+    });
+  </script>
+
+</body>
+
+</html>

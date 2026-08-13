@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>상세 등록</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+  <main class="container">
+    <h1>태그·출판사 포함 등록</h1>
+    <p class="subtitle">태그와 출판사 정보를 포함해 도서를 등록합니다.</p>
+
+    <div class="search-box">
+      <input id="title" placeholder="제목">
+      <input id="author" placeholder="저자">
+      <input id="year" type="number" placeholder="연도">
+    </div>
+
+    <div class="search-box">
+      <input id="tags" placeholder="태그 (쉼표로 구분)">
+      <input id="pubName" placeholder="출판사 이름 (선택)">
+      <input id="pubCity" placeholder="출판사 도시 (선택)">
+      <button id="saveBtn">등록</button>
+    </div>
+
+    <div class="table-box">
+      <p id="result"></p>
+    </div>
+
+    <br>
+
+    <div class="table-box">
+      <table>
+        <colgroup>
+          <col style="width:10%">
+          <col style="width:40%">
+          <col style="width:25%">
+          <col style="width:25%">
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>저자</th>
+            <th>연도</th>
+          </tr>
+        </thead>
+
+        <tbody id="book-list"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    async function loadList() {
+      const books = await (await fetch("/list")).json();
+      const bookList = document.getElementById("book-list");
+      bookList.innerHTML = "";
+
+      for (const book of books) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${book.id}</td>
+          <td>${book.title}</td>
+          <td>${book.author}</td>
+          <td>${book.year}</td>
+        `;
+        bookList.appendChild(row);
+      }
+    }
+
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+      const saveBtn = document.getElementById("saveBtn");
+      saveBtn.disabled = true;
+
+      const tagText = document.getElementById("tags").value;
+      const pubName = document.getElementById("pubName").value;
+      const pubCity = document.getElementById("pubCity").value;
+
+      const payload = {
+        title: document.getElementById("title").value,
+        author: document.getElementById("author").value,
+        year: Number(document.getElementById("year").value),
+        tags: tagText ? tagText.split(",").map(t => t.trim()) : []
+      };
+
+      if (pubName) {
+        payload.publisher = { name: pubName };
+        if (pubCity) payload.publisher.city = pubCity;
+      }
+
+      try {
+        const res = await fetch("/books", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.status === 201) {
+          document.getElementById("result").textContent = "상태 201";
+
+          document.getElementById("title").value = "";
+          document.getElementById("author").value = "";
+          document.getElementById("year").value = "";
+          document.getElementById("tags").value = "";
+          document.getElementById("pubName").value = "";
+          document.getElementById("pubCity").value = "";
+
+          loadList();
+        } else {
+          const data = await res.json();
+          document.getElementById("result").textContent = "오류: " + JSON.stringify(data);
+        }
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    loadList();
+  </script>
+</body>
+</html>

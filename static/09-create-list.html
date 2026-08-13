@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>등록과 목록</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+  <main class="container">
+    <h1>등록 후 목록 갱신</h1>
+    <p class="subtitle">도서를 등록하고 바로 아래 목록에서 확인합니다.</p>
+
+    <div class="search-box">
+      <input id="title" placeholder="제목">
+      <input id="author" placeholder="저자">
+      <input id="year" type="number" placeholder="연도">
+      <button id="saveBtn">등록</button>
+    </div>
+
+    <div class="table-box">
+      <p id="msg"></p>
+    </div>
+
+    <br>
+
+    <div class="table-box">
+      <table>
+        <colgroup>
+          <col style="width:10%">
+          <col style="width:40%">
+          <col style="width:25%">
+          <col style="width:25%">
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>저자</th>
+            <th>연도</th>
+          </tr>
+        </thead>
+
+        <tbody id="list"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    async function loadList() {
+      const books = await (await fetch("/list")).json();
+      const list = document.getElementById("list");
+      list.innerHTML = "";
+
+      for (const b of books) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${b.id}</td>
+          <td>${b.title}</td>
+          <td>${b.author}</td>
+          <td>${b.year}</td>
+        `;
+        list.appendChild(row);
+      }
+    }
+
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+      const saveBtn = document.getElementById("saveBtn");
+      saveBtn.disabled = true;
+
+      const payload = {
+        title: document.getElementById("title").value,
+        author: document.getElementById("author").value,
+        year: Number(document.getElementById("year").value)
+      };
+
+      try {
+        const res = await fetch("/books", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (res.status === 201) {
+          document.getElementById("msg").textContent =
+            "'" + data.title + "' 도서가 등록되었습니다.";
+
+          document.getElementById("title").value = "";
+          document.getElementById("author").value = "";
+          document.getElementById("year").value = "";
+
+          loadList();
+        } else {
+          document.getElementById("msg").textContent =
+            "오류: " + (data.detail || res.status);
+        }
+
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    loadList();
+  </script>
+</body>
+</html>
