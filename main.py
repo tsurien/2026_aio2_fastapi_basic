@@ -18,12 +18,15 @@ books = [
     {"id": 5, "title": "FastAPI로 배우는 백엔드", "author": "이영희", "year": 2024},
 ]
 
+# 초기 페이지
+@app.get("/")
+def read_root():
+    return {"message":"Hello World!!!"}
 
 # 서버 상태 확인
 @app.get("/health")
 def health():
     return {"status": "healthy"}
-
 
 # API 정보
 @app.get("/info")
@@ -33,24 +36,20 @@ def info():
         "version": "0.1.0"
     }
 
-
 # 도서 목록 페이지
 @app.get("/books")
 def books_page():
     return FileResponse("static/02-list.html")
-
 
 # 도서 목록 API
 @app.get("/api/books")
 def get_books():
     return books
 
-
 # 도서 검색 페이지
 @app.get("/search")
 def search_page():
     return FileResponse("static/04-search.html")
-
 
 # 도서 검색 API
 @app.get("/books/search")
@@ -62,7 +61,6 @@ def search_books(keyword: str):
             result.append(book)
 
     return result
-
 
 # 특정 도서 조회 API
 @app.get("/books/{book_id}")
@@ -77,12 +75,3 @@ def read_book(book_id: int):
 @app.get("/book")
 def book_page():
     return FileResponse("static/03-detail.html")
-
-# 특정 도서 조회 API
-@app.get("/books/{book_id}")
-def read_book(book_id: int):
-    for book in books:
-        if book_id == book["id"]:
-            return book
-
-    return {"error": "not found"}
