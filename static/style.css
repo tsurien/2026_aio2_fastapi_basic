@@ -1,62 +1,131 @@
-* { box-sizing:border-box; }
+*{box-sizing:border-box}
 
-body { min-height:100vh; margin:0; padding:40px 20px; display:flex; justify-content:center; align-items:center; color:#eee; font-family:"Gowun Batang",serif; background:radial-gradient(circle at top,#292929 0,#111 45%,#050505 100%); }
-
-.container { width:100%; max-width:900px; margin:auto; text-align:center; }
-
-h1 { margin:0 0 10px; font-family:"BMEULJIRO","Gowun Batang",serif; font-size:42px; letter-spacing:1px; text-align:center; background:linear-gradient(#fff,#999); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-
-.subtitle { margin:0 0 35px; color:#777; font-size:14px; text-align:center; }
-
-.search-box { width:100%; display:flex; justify-content:center; align-items:center; gap:10px; margin:0 auto 20px; }
-
-input { width:240px; padding:12px 14px; color:#eee; font:14px "Gowun Batang",serif; outline:none; border:1px solid rgba(255,255,255,.12); border-radius:10px; background:linear-gradient(145deg,rgba(255,255,255,.05),transparent),#121212; box-shadow:inset 0 1px rgba(255,255,255,.05); transition:.25s; }
-input:focus { border-color:#666; background:#181818; }
-input::placeholder { color:#666; }
-
-select { padding:12px 14px; color:#eee; font:14px "Gowun Batang",serif; border:1px solid rgba(255,255,255,.12); border-radius:10px; background:#181818; outline:none; cursor:pointer; }
-select:focus { border-color:#666; }
-
-button { padding:12px 24px; color:#eee; font:700 14px "Gowun Batang",serif; cursor:pointer; border:1px solid rgba(255,255,255,.12); border-radius:10px; background:linear-gradient(145deg,rgba(255,255,255,.08),transparent),#181818; box-shadow:0 8px 25px #0007,inset 0 1px rgba(255,255,255,.08); transition:.25s; }
-button:hover { transform:translateY(-2px); border-color:#666; background:#222; box-shadow:0 12px 30px #0009; }
-button:disabled { opacity:.45; cursor:not-allowed; transform:none; }
-
-.table-box { overflow:hidden; border:1px solid rgba(255,255,255,.08); border-radius:14px; background:linear-gradient(145deg,rgba(255,255,255,.04),transparent),#121212; box-shadow:0 15px 40px #0008,inset 0 1px rgba(255,255,255,.05); }
-
-table { width:100%; border-collapse:collapse; table-layout:fixed; }
-
-th, td { padding:14px 10px; text-align:center; border-bottom:1px solid #252525; }
-th { color:#aaa; font-size:13px; letter-spacing:.5px; background:#181818; }
-td { color:#ddd; font-size:14px; }
-
-tbody tr { transition:.2s; }
-tbody tr:hover { background:rgba(255,255,255,.035); }
-tbody tr:last-child td { border-bottom:0; }
-
-#message { min-height:22px; margin:18px 0 0; color:#aaa; font-size:14px; }
-
-#result { margin:0; padding:0; list-style:none; text-align:left; }
-#result li { padding:14px 20px; color:#ddd; font-size:14px; border-bottom:1px solid #252525; transition:.2s; }
-#result li:hover { background:rgba(255,255,255,.035); }
-#result li:last-child { border-bottom:0; }
-
-p#result { margin:0; padding:16px 20px; color:#aaa; font-size:14px; text-align:center; }
-
-#status, #info { margin:0; padding:16px 20px; color:#ddd; font-size:14px; text-align:center; }
-#status { border-bottom:1px solid #252525; }
-
-#errors { margin:0; padding:0; list-style:none; text-align:left; }
-#errors li { padding:12px 20px; color:#ff6b6b; border-bottom:1px solid #252525; }
-#errors li:last-child { border-bottom:0; }
-
-#ok { margin:0; padding:16px 20px; color:#aaa; text-align:center; }
-
-@media(max-width:600px) {
-    body { padding:25px 12px; }
-    h1 { font-size:34px; }
-    .search-box { flex-direction:column; }
-    input, select, button { width:100%; }
-    th, td { padding:11px 5px; font-size:12px; }
+body{
+  min-height:100vh;margin:0;padding:42px 20px;color:#44382e;
+  font-family:"Gowun Batang",serif;
+  background:
+    radial-gradient(circle at 12% 8%,rgba(255,226,181,.72),transparent 28%),
+    radial-gradient(circle at 82% 12%,rgba(255,255,255,.9),transparent 34%),
+    linear-gradient(135deg,#f9f2e7,#f5ecdf 55%,#eee3d4);
 }
 
-#msg { white-space:pre-line; }
+.container{width:100%;max-width:1180px;margin:auto;text-align:center}
+
+/* 제목 */
+.hero{padding:24px 20px 30px}
+.eyebrow{margin:0 0 12px;color:#a28d77;font-size:11px;letter-spacing:5px}
+
+h1{
+  margin:0 0 12px;color:#382b22;font-size:52px;font-weight:700;
+  letter-spacing:-1px;line-height:1.1;
+}
+
+.subtitle{margin:0;color:#928579;font-size:14px}
+
+/* 입력 */
+.search-box{display:flex;justify-content:center;gap:10px;margin:5px auto 28px}
+
+input,select{
+  padding:11px 15px;color:#55483d;font:14px "Gowun Batang",serif;
+  outline:none;border:1px solid #ded0bf;border-radius:999px;
+  background:rgba(255,255,255,.7);box-shadow:inset 0 1px 0 #fff;
+  transition:.2s;
+}
+
+input{width:330px}
+input::placeholder{color:#ad9e90}
+input:focus,select:focus{border-color:#bca993;background:#fff}
+
+/* 일반 버튼 */
+button{
+  padding:10px 20px;color:#655343;font:700 14px "Gowun Batang",serif;
+  cursor:pointer;border:1px solid #dccbb8;border-radius:999px;
+  background:linear-gradient(180deg,#fffdfa,#f5ede2);
+  box-shadow:0 5px 14px rgba(88,67,45,.08),inset 0 1px 0 #fff;
+  transition:.22s;
+}
+
+button:hover{transform:translateY(-2px);border-color:#baa68e;box-shadow:0 9px 20px rgba(88,67,45,.13)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* 인덱스 카드 */
+.menu{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+
+.menu a{
+  position:relative;display:flex;align-items:center;gap:16px;
+  min-height:132px;padding:22px 20px;color:#46382d;text-align:left;text-decoration:none;
+  border:1px solid rgba(190,167,141,.38);border-radius:19px;
+  background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(255,250,243,.7));
+  box-shadow:0 10px 24px rgba(91,67,43,.09),inset 0 1px 0 rgba(255,255,255,.95);
+  transition:transform .22s,border-color .22s,box-shadow .22s;
+}
+
+.menu a::after{
+  content:"";position:absolute;inset:0;border-radius:19px;pointer-events:none;
+  background:linear-gradient(125deg,rgba(255,255,255,.5),transparent 38%);
+  opacity:.45;
+}
+
+.menu a:hover{
+  transform:translateY(-4px);border-color:#c2ab91;
+  box-shadow:0 16px 30px rgba(91,67,43,.14),inset 0 1px 0 #fff;
+}
+
+.icon{
+  position:relative;z-index:1;display:grid;place-items:center;
+  width:46px;height:46px;flex:0 0 46px;color:#9b8875;
+}
+
+.icon svg{width:31px;height:31px;stroke-width:1.5}
+
+.card-text{position:relative;z-index:1;min-width:0}
+
+.number{
+  display:block;margin-bottom:7px;color:#9e8e7f;
+  font-size:12px;letter-spacing:2px;
+}
+
+.name{
+  display:block;color:#46382d;font-size:18px;font-weight:700;
+  white-space:nowrap;
+}
+
+/* 테이블 */
+.table-box{
+  overflow:hidden;border:1px solid #dfd0bf;border-radius:18px;
+  background:rgba(255,255,255,.7);
+  box-shadow:0 12px 28px rgba(83,61,39,.09);
+}
+
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th,td{padding:14px 10px;text-align:center;border-bottom:1px solid #eadfd3}
+th{color:#78695d;font-size:13px;background:rgba(248,241,232,.9)}
+td{color:#50443a;font-size:14px}
+tbody tr{transition:.18s}
+tbody tr:hover{background:rgba(255,255,255,.55)}
+tbody tr:last-child td{border-bottom:0}
+
+/* 결과 영역 */
+#message{min-height:22px;margin:16px 0 0;color:#8c7e72;font-size:14px}
+#result{margin:0;padding:0;list-style:none;text-align:left}
+#result li{padding:13px 18px;border-bottom:1px solid #eadfd3}
+#result li:last-child{border-bottom:0}
+
+p#result,#status,#info,#ok{margin:0;padding:15px 18px;color:#7d7065;text-align:center}
+#errors{margin:0;padding:0;list-style:none}
+#errors li{padding:12px 18px;color:#b76259;border-bottom:1px solid #eadfd3}
+#msg{white-space:pre-line}
+
+/* 하단 */
+.footer{margin-top:34px;color:#a6988b;font-size:10px;letter-spacing:3px}
+
+/* 반응형 */
+@media(max-width:1000px){.menu{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:780px){.menu{grid-template-columns:repeat(2,1fr)}}
+
+@media(max-width:600px){
+  body{padding:25px 12px} h1{font-size:36px}
+  .menu{grid-template-columns:1fr}.menu a{min-height:100px}
+  .search-box{flex-direction:column}input,select,button{width:100%}
+  th,td{padding:10px 5px;font-size:12px}
+}
